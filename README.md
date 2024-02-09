@@ -7,46 +7,42 @@ Build and Run with Docker
 -------------------------
 
 1. Build Docker Image:
-   docker build -t mydashapp .
+   - Command: `docker build -t mydashapp .`
+   - This builds a Docker image named `mydashapp` based on the Dockerfile.
 
 2. Run Container:
-   docker run -p 2718:2718 mydashapp
+   - Command: `docker run -p 2718:2718 mydashapp`
+   - This runs the Dash application in a Docker container, making it accessible on port 2718.
 
 Access the application at http://localhost:2718.
+
+Server Setup
+------------
+
+- The application uses Gunicorn as the WSGI HTTP Server to serve the Dash application.
+- Gunicorn is configured in the Dockerfile CMD instruction to start with 4 worker processes and bind to `0.0.0.0:2718`.
+- The Dash app is initialized in `app.py` with its Flask server instance exposed for Gunicorn to serve.
 
 Development
 -----------
 
-- Python 3.8+
-- Docker
+- Required Python version: 3.8 or newer.
+- Dependencies are managed with a `requirements.txt` file.
+- Docker is used for containerization, ensuring consistent environments across development and production.
 
-Files
------
+Files and Directories
+---------------------
 
-- app.py: Main Dash application script with app layout and callbacks.
-- Dockerfile: Contains instructions for Docker to build the application image.
-- requirements.txt: Lists Python package dependencies for the application.
-- /assets: Directory for CSS, JavaScript, and images used by the Dash app.
-- /pages: Contains separate Python modules for each page of the multi-page app.
+- `app.py`: Contains the Dash app initialization, layout definitions, and callback functions.
+- `Dockerfile`: Defines the Docker image setup instructions, including the environment, dependencies, and the command to run the app with Gunicorn.
+- `requirements.txt`: Lists all the necessary Python packages.
+- `/assets`: Directory for static files like CSS and JavaScript that customize the app's appearance.
+- `/pages`: Includes Python scripts for each page in the app, allowing for a modular multi-page app setup.
 
 Structure
 ---------
 
-The application is structured as follows:
-- The main entry point is `app.py`, which sets up the Dash app, defines the layout, and includes callbacks for interactivity.
-- The `Dockerfile` facilitates the creation of a Docker container for the app.
-- Dependencies required by the application are listed in `requirements.txt`.
-- Static files such as custom CSS are stored in the `/assets` directory.
-- The `/pages` directory holds individual Python scripts for different pages in the multi-page app setup.
-
-Docker Commands
----------------
-
-- Build Image: docker build -t mydashapp .
-- Run Container: docker run -p 2718:2718 mydashapp
-
-Access Application
-------------------
-
-Open a web browser and navigate to http://localhost:2718 to interact with the Dash application.
+- The Dash application is structured to support a multi-page layout, with each page's content managed in separate modules within the `/pages` directory.
+- The `app.py` file serves as the entry point, configuring global aspects of the app like the navbar and the page routing mechanism.
+- Static resources in the `/assets` directory automatically enhance the frontend without needing manual inclusion in the HTML layout.
 
