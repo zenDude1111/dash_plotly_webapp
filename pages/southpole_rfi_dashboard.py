@@ -61,11 +61,11 @@ layout = dbc.Container([
 )
 def render_content(tab):
     if tab == 'tab-1':
-        img_src = "/assets/sh1_20240207_waterfall.png"
+        img_src = "/assets/sh1_20210101_waterfall.png"
     elif tab == 'tab-2':
-        img_src = "/assets/sh2_20240207_waterfall.png"
+        img_src = "/assets/sh2_20210101_waterfall.png"
     
     return html.Div(
         html.Img(src=img_src, style={"width": "100%", "height": "auto"}),
-        style={"maxWidth": "800px", "margin": "0 auto"}
+        style={"maxWidth": "1200px", "margin": "0 auto"}
     )
