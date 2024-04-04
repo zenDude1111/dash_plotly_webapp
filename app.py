@@ -1,54 +1,35 @@
-from dash import Dash, dcc, html
+from dash import Dash, dcc, html, callback
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
-from datetime import date
+# if there are pages in the app, import them here
 
-# Import the page layouts from the pages folder
-from pages import southpole_rfi_dashboard
+# Initialize Dash app with Bootstrap theme
+app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
+server = app.server
 
-# Initialize Dash app directly here
-app = Dash(__name__, suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
-server = app.server  # Expose the Flask server for Gunicorn
-
-# Define your navbar and layout as before
+# Define the navbar with the brand name and links to other pages in the app if applicable
 navbar = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink("Home", href="/")),
-        dbc.NavItem(dbc.NavLink("Southpole RFI Dashboard", href="/southpole_rfi_dashboard")),
     ],
-    brand="Dr. Barron Cosmology Lab",
-    brand_href="/",
-    color="secondary",
+    brand="Dashboard",
+    brand_href="#",
+    color="primary",
     dark=True,
+    className="justify-content-between",
 )
-
-# define layout for landing page 
-home_layout = html.Div([
-    html.H1("Home Page"),
-    html.P("Welcome to the Dash app!")
-])
 
 # Define the app layout
 app.layout = html.Div([
-    dcc.Location(id='url', refresh=False),
     navbar,
-    html.Div(id='page-content')
-])
+    html.Div(id='page-content', children=["This is the main content area"])
+], id="main-container")
 
-# Define the callback for dynamic page loading
-@app.callback(Output('page-content', 'children'),
-              [Input('url', 'pathname')])
-def display_page(pathname):
-    if pathname == '/southpole_rfi_dashboard':
-        return southpole_rfi_dashboard.layout
-        pass
-    else:
-        return home_layout
 
+# Define callbacks and functions here
+
+# static files (css, js, images) are automatically served from the assets directory
+
+
+# Run the Dash app
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
-
-
-
